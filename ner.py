@@ -14,8 +14,8 @@ SENTIMENT_URL = 'http://api.bosonnlp.com/ner/analysis'
 
 headers = {'X-Token': 'siOGjeDh.14548.U8dB4nHYKs-x'}
 
-df = pd.read_excel(input_path, encoding='utf-8')
-raw_data = list(df.iloc[0:5, 0])
+df_origin = pd.read_excel(input_path, encoding='utf-8')
+raw_data = list(df_origin.iloc[0:5, 0])
 print(raw_data)
 # b = a.to_json(force_ascii=False)
 # print(b)
@@ -26,7 +26,7 @@ async def response():
 	print(resp)
 	print(type(json.loads(resp)))
 	resp_array = json.loads(resp)
-	dates = pd.date_range('20170501', periods=5)
+	# dates = pd.date_range('20170501', periods=5)
 	await asyncio.sleep(2)
 	# 不是异步的问题，是不是本地应该写入到一个文件的问题？但不是赋值给了resp吗
 	# 打断点调试
@@ -34,10 +34,13 @@ async def response():
 	# 想杀了后端的心都有，接口数据定义的这么混乱
 	# 为什么昨天上午用xlwings库时传来的数据能用
 	# json序列化解决
-	new_data = pd.DataFrame(resp_array, index=dates)
+	new_data = pd.DataFrame(resp_array)
 
 	print(new_data)
 
+	output = pd.ExcelWriter(output_path)
+	new_data.to_excel(output, 'sheet1')
+	output.save()
 # 获取EventLoop:
 loop = asyncio.get_event_loop()
 # 执行coroutine
@@ -46,7 +49,3 @@ loop.close()
 
 
 
-# writer = pd.ExcelWriter(output_path)
-# print(writer)
-# df.to_excel(writer, 'sheet1')
-# writer.save()
