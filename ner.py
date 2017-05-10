@@ -8,7 +8,7 @@ import requests
 import asyncio
 
 nlp = BosonNLP('siOGjeDh.14548.U8dB4nHYKs-x')
-
+<<<<<<< HEAD
 inputPath = r'C:\Main\Desktop\Front End\test\input.xlsx'
 outputPath = r'C:\Main\Desktop\Front End\test\output.xlsx'
 
